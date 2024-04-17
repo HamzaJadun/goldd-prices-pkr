@@ -8,10 +8,10 @@ def get_gold_rates():
     url = 'https://www.urdupoint.com/business/gold-rates.html'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
-    
+
     # Find the table containing gold rates
     table = soup.find('table', class_='resp_table mb0')
-    
+
     # Extract data from each row of the table
     rows = table.find_all('tr')
     data = []
@@ -21,7 +21,7 @@ def get_gold_rates():
             purity = cells[0].text.strip()
             per_tola = cells[1].text.strip()
             per_10_gram = cells[2].text.strip()
-            
+
             # Creating a dictionary for each row of data
             row_data = {
                 'purity': purity,
@@ -29,7 +29,7 @@ def get_gold_rates():
                 'per_10_gram': per_10_gram,
             }
             data.append(row_data)
-    
+
     return data
 
 @app.route('/gold-rates', methods=['GET'])
