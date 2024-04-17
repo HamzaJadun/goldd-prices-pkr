@@ -32,11 +32,11 @@ def get_gold_rates():
     
     return data
 
+@app.get('/')
+async def index():
+    return 'Welcome to the Gold Rates API'
+
 @app.get('/gold-rates')
 async def gold_rates_api():
     gold_rates_data = get_gold_rates()
     return gold_rates_data
-
-@app.get('/')
-async def index():
-    return 'Welcome to the Gold Rates API'
