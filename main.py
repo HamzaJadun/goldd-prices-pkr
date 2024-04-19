@@ -1,8 +1,17 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from bs4 import BeautifulSoup
 import requests
 
 app = FastAPI()
+
+@app.get("/")
+async def read_root():
+    return {"message": "Welcome to the Gold Rates API"}
+
+@app.get("/gold-rates")
+async def gold_rates_api():
+    gold_rates_data = get_gold_rates()
+    return gold_rates_data
 
 def get_gold_rates():
     url = 'https://www.urdupoint.com/business/gold-rates.html'
@@ -31,8 +40,3 @@ def get_gold_rates():
             data.append(row_data)
     
     return data
-
-@app.get("/gold-rates")
-async def gold_rates_api():
-    gold_rates_data = get_gold_rates()
-    return gold_rates_data
