@@ -1,17 +1,8 @@
-from fastapi import FastAPI
+from flask import Flask, jsonify
 from bs4 import BeautifulSoup
 import requests
 
-app = FastAPI()
-
-@app.get("/")
-async def read_root():
-    return {"message": "Welcome to the Gold Rates API"}
-
-@app.get("/gold-rates")
-async def gold_rates_api():
-    gold_rates_data = get_gold_rates()
-    return gold_rates_data
+app = Flask(__name__)
 
 def get_gold_rates():
     url = 'https://www.urdupoint.com/business/gold-rates.html'
@@ -40,3 +31,13 @@ def get_gold_rates():
             data.append(row_data)
     
     return data
+
+@app.route('/gold-rates', methods=['GET'])
+def gold_rates_api():
+    gold_rates_data = get_gold_rates()
+    return jsonify(gold_rates_data)
+
+# Define a route for the root URL
+@app.route('/')
+def index():
+    return 'Welcome to the Gold Rates API'
